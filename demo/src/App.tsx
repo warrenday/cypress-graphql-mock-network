@@ -30,13 +30,21 @@ const requestTodos = () => {
 };
 
 const App = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[] | null>(null);
 
   useEffect(() => {
     requestTodos().then(res => {
       setTodos(res.data.data.todos.data);
     });
   }, [setTodos]);
+
+  if (!todos) {
+    return <div>'loading...'</div>;
+  }
+
+  if (todos.length === 0) {
+    return <div>no todos found</div>;
+  }
 
   return (
     <ul>

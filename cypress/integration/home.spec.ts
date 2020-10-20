@@ -39,4 +39,19 @@ describe('Home Page', () => {
       .contains(/Clean the house/)
       .should('exist');
   });
+
+  it('displays no todos message', () => {
+    cy.mockNetworkAdd({
+      Query: () => ({
+        todos: () => ({
+          data: [],
+        }),
+      }),
+    });
+
+    cy.get('li').should('have.length', 0);
+    cy.get('div')
+      .contains(/no todos found/)
+      .should('exist');
+  });
 });

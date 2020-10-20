@@ -14,6 +14,7 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "cypress run",
+    "cypress": "cypress open",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
