@@ -24,7 +24,7 @@ Now you are all setup to mock any graphql request from cypress :D
 
 ## Usage Example
 
-You can find an example test suite with this repo at [./cypress/integration/home.spec.ts](./cypress/integration/home.spec.ts)
+You can find an example test suite within this repo at [./cypress/integration/home.spec.ts](./cypress/integration/home.spec.ts)
 
 Run the mock network before each test, you can import the schema with `cy.readFile()`, which will read relative to the location of the `cypress.json` config file.
 
