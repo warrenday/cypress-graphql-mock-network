@@ -1,103 +1,132 @@
-# TSDX User Guide
+# Cypress GraphQL Mock Network
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+Simple network mocking for your GraphQL API.
 
-> This TSDX setup is meant for developing libraries (not apps!) that can be published to NPM. If you’re looking to build a Node app, you could use `ts-node-dev`, plain `ts-node`, or simple `tsc`.
+This module provides a cypress wrapper for [GraphQL Mock Network](https://github.com/warrenday/graphql-mock-network)
 
-> If you’re new to TypeScript, checkout [this handy cheatsheet](https://devhints.io/typescript)
+## Installation
+
+Install the module
+
+`npm i cypress-graphql-mock-network`
+
+Import this module within the support file of your cypress directory. `cypress/support/index.ts`
+
+```ts
+import 'cypress-graphql-mock-network';
+```
+
+(Important) Serve our custom service worker [./mockServiceWorker.js](./mockServiceWorker.js) from the root directory of your site. i.e. so it can be accessed in browser at `http://{{yourdomain}}/mockServiceWorker.js`.
+
+Please note some modifications have been made to make this work with cypress. So please use the service worker from this repo specifically.
+
+Now you are all setup to mock any graphql request from cypress :D
+
+## Usage Example
+
+You can find an example test suite with this repo at [./cypress/integration/home.spec.ts](./cypress/integration/home.spec.ts)
+
+Run the mock network before each test, you can import the schema with `cy.readFile()`, which will read relative to the location of the `cypress.json` config file.
+
+```ts
+beforeEach(() => {
+  cy.readFile('./introspection.schema.graphql').then(schema => {
+    cy.mockNetwork({ schema });
+
+    // You may want to visit the same url for each test, in which case,
+    // call cy.visit within the readFile callback.
+    // cy.visit('http://localhost:3000');
+  });
+});
+```
+
+Then within each test you can rely on the automatic mocking of the schema, or apply your own custom mocks.
+
+```ts
+it('displays initial list of todos', () => {
+  cy.visit('http://localhost:3000');
+
+  cy.mockNetworkAdd({
+    Query: () => ({
+      todos: () => ({
+        data: [
+          {
+            id: '1',
+            title: 'Go shopping',
+            completed: true,
+          },
+        ],
+      }),
+    }),
+  });
+
+  cy.get('li')
+    .eq(0)
+    .contains(/Go shopping/)
+    .should('exist');
+});
+```
 
 ## Commands
 
-TSDX scaffolds your new library inside `/src`.
+We provide three simple commands to support all your mocking needs.
 
-To run TSDX, use:
+### cy.mockNetwork()
 
-```bash
-npm start # or yarn start
+Must be called before each test so call within the beforeEach callback. Accepts a GraphQL Schema and optionally some initial mocks.
+
+```ts
+beforeEach(() => {
+  cy.readFile('./introspection.schema.graphql').then(schema => {
+    cy.mockNetwork({ schema, mocks: {} });
+  });
+});
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+### cy.mockNetworkAdd()
 
-To do a one-off build, use `npm run build` or `yarn build`.
+Add additional mocks to those defined when initialising the mock network.
 
-To run tests, use `npm test` or `yarn test`.
-
-## Configuration
-
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle Analysis
-
-[`size-limit`](https://github.com/ai/size-limit) is set up to calculate the real cost of your library with `npm run size` and visualize the bundle with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
+```ts
+cy.mockNetworkAdd({
+  Query: () => ({
+    photo: () => ({
+      id: 'abc',
+      title: 'I am a manually mocked photo!',
+    }),
+    todo: () => ({
+      id: 'xyz',
+      title: 'I am a manually mocked todo!',
+    }),
+  }),
+  Mutation: () => ({
+    createPhoto: () => ({
+      id: '1',
+      title: 'Family Holiday',
+      url: 'http://url.com',
+      thumbnailUrl: 'http://url.com/thumbnail',
+    }),
+  }),
+});
 ```
 
-### Rollup
+### cy.mockNetworkReset()
 
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+Reset mocks back to the state when `cy.mockNetwork()` was called.
 
-### TypeScript
-
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
-
-## Continuous Integration
-
-### GitHub Actions
-
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
-}
+```ts
+cy.mockNetworkReset();
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
+## Licence
 
-## Module Formats
+The MIT License (MIT)
 
-CJS, ESModules, and UMD module formats are supported.
+Copyright (c) 2020 Cypress GraphQL Mock Network Authors
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-## Named Exports
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+`

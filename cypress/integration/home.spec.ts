@@ -2,11 +2,7 @@ describe('Home Page', () => {
   beforeEach(() => {
     cy.readFile('./introspection.schema.graphql').then(schema => {
       cy.mockNetwork({ schema });
-      cy.visit('http://localhost:3000', {
-        onBeforeLoad: win => {
-          win.onerror = null;
-        },
-      });
+      cy.visit('http://localhost:3000');
     });
   });
 

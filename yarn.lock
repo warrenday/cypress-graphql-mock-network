@@ -5077,10 +5077,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
-graphql-mock-network@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/graphql-mock-network/-/graphql-mock-network-0.5.0.tgz#e592cfe86bdda3408727d9ab5d429614cacfdd5d"
-  integrity sha512-IizImhN3FvH5g3wJrQrXDeRAEvN4rtLPe+KzwpNupgugavU+9kQXYPQ2cfFuHnI6y3cFFwB6uv6q+2Pmi7hxOQ==
+graphql-mock-network@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/graphql-mock-network/-/graphql-mock-network-0.6.0.tgz#b36da6272475fc599a93108c950bfee721e12dc4"
+  integrity sha512-nz/TlxD3HGa911C8RqbR3QIsFW+JbBshvKLHBzDT4yrXrkYjUTdf1Fmgqctp1jCUJwt6pKq1TskTiwcfWVuHxQ==
   dependencies:
     graphql "^15.3.0"
     graphql-tools "4.0.8"
