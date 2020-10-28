@@ -24,7 +24,6 @@ Cypress.Commands.add('mockNetwork', (opts: MockNetworkOptions) => {
     schema,
     mocks,
   });
-  mockNetwork.start();
 
   // Wrap methods to be called by other cypress commands
   cy.wrap({
@@ -35,6 +34,11 @@ Cypress.Commands.add('mockNetwork', (opts: MockNetworkOptions) => {
       mockNetwork.resetMocks();
     },
   }).as(ALIAS);
+
+  // A timeout may be required when registering the service worker for the first time only.
+  cy.wrap(null).then({ timeout: 10000 }, () => {
+    return mockNetwork.start();
+  });
 });
 
 Cypress.Commands.add('mockNetworkAdd', (mocks: IMocks) => {
