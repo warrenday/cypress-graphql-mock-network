@@ -2,8 +2,8 @@ describe('Home Page', () => {
   beforeEach(() => {
     cy.readFile('./introspection.schema.graphql').then(schema => {
       cy.mockNetwork({ schema });
-      cy.visit('http://localhost:3000');
     });
+    cy.visit('http://localhost:3000');
   });
 
   it('displays initial list of todos', () => {
