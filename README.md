@@ -32,11 +32,11 @@ Run the mock network before each test, you can import the schema with `cy.readFi
 beforeEach(() => {
   cy.readFile('./introspection.schema.graphql').then(schema => {
     cy.mockNetwork({ schema });
-
-    // You may want to visit the same url for each test, in which case,
-    // call cy.visit within the readFile callback.
-    // cy.visit('http://localhost:3000');
   });
+
+  // You may want to visit the same url for each test, in which case,
+  // call cy.visit AFTER the network has been mocked.
+  // cy.visit('http://localhost:3000');
 });
 ```
 
