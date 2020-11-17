@@ -46,5 +46,5 @@ Cypress.Commands.add('mockNetworkAdd', (mocks: IMocks) => {
 });
 
 Cypress.Commands.add('mockNetworkReset', () => {
-  cy.get(`@${ALIAS}`).invoke('mockNetworkAdd');
+  cy.get(`@${ALIAS}`).invoke('mockNetworkReset');
 });
