@@ -14,6 +14,7 @@ declare global {
       mockNetwork(options?: MockNetworkOptions): void;
       mockNetworkAdd(mocks?: IMocks): void;
       mockNetworkReset(): void;
+      mockNetworkStop(): void;
     }
   }
 }
@@ -33,6 +34,9 @@ Cypress.Commands.add('mockNetwork', (opts: MockNetworkOptions) => {
     mockNetworkReset: () => {
       mockNetwork.resetMocks();
     },
+    mockNetworkStop: () => {
+      mockNetwork.stop();
+    },
   }).as(ALIAS);
 
   // A timeout may be required when registering the service worker for the first time only.
@@ -47,4 +51,8 @@ Cypress.Commands.add('mockNetworkAdd', (mocks: IMocks) => {
 
 Cypress.Commands.add('mockNetworkReset', () => {
   cy.get(`@${ALIAS}`).invoke('mockNetworkReset');
+});
+
+Cypress.Commands.add('mockNetworkStop', () => {
+  cy.get(`@${ALIAS}`).invoke('mockNetworkStop');
 });
