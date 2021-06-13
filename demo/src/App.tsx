@@ -31,12 +31,24 @@ const requestTodos = () => {
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[] | null>(null);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
-    requestTodos().then(res => {
-      setTodos(res.data.data.todos.data);
-    });
+    requestTodos()
+      .then(res => {
+        if (res.data.errors) {
+          throw res.data.errors[0];
+        }
+        setTodos(res.data.data.todos.data);
+      })
+      .catch(err => {
+        setError(err.message);
+      });
   }, [setTodos]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   if (!todos) {
     return <div>'loading...'</div>;
@@ -45,7 +57,6 @@ const App = () => {
   if (todos.length === 0) {
     return <div>no todos found</div>;
   }
-
   return (
     <ul>
       {todos.map(todo => (

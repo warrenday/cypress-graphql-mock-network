@@ -50,4 +50,26 @@ describe('Home Page', () => {
       .contains(/no todos found/)
       .should('exist');
   });
+
+  it('displays a valid error', () => {
+    cy.mockNetworkAdd({
+      Query: () => ({
+        todos: () => {
+          throw new Error('Oh dear');
+        },
+      }),
+    });
+
+    cy.get('div')
+      .contains(/Oh dear/)
+      .should('exist');
+  });
+
+  it('disables the mock service', () => {
+    cy.mockNetworkStop();
+
+    cy.get('div')
+      .contains(/Request failed with status code 404/)
+      .should('exist');
+  });
 });
