@@ -2,13 +2,13 @@
 /* tslint:disable */
 
 /**
- * Mock Service Worker (<PACKAGE_VERSION>).
+ * Mock Service Worker.
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  * - Please do NOT serve this file on production.
  */
 
-const INTEGRITY_CHECKSUM = '<INTEGRITY_CHECKSUM>';
+const INTEGRITY_CHECKSUM = '82ef9b96d8393b6da34527d1d6e19187';
 const bypassHeaderName = 'x-msw-bypass';
 const activeClientIds = new Set();
 
@@ -221,14 +221,14 @@ async function getResponse(event, client, requestId) {
 
       console.error(
         `\
- [MSW] Request handler function for "%s %s" has thrown the following exception:
- 
- ${parsedBody.errorType}: ${parsedBody.message}
- (see more detailed error stack trace in the mocked response body)
- 
- This exception has been gracefully handled as a 500 response, however, it's strongly recommended to resolve this error.
- If you wish to mock an error response, please refer to this guide: https://mswjs.io/docs/recipes/mocking-error-responses\
- `,
+[MSW] Request handler function for "%s %s" has thrown the following exception:
+
+${parsedBody.errorType}: ${parsedBody.message}
+(see more detailed error stack trace in the mocked response body)
+
+This exception has been gracefully handled as a 500 response, however, it's strongly recommended to resolve this error.
+If you wish to mock an error response, please refer to this guide: https://mswjs.io/docs/recipes/mocking-error-responses\
+`,
         request.method,
         request.url
       );
