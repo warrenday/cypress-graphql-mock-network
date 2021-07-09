@@ -8,7 +8,7 @@
     "src"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "homepage": "https://github.com/warrenday/cypress-graphql-mock-network",
   "scripts": {
