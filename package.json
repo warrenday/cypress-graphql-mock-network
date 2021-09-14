@@ -47,12 +47,11 @@
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
-    "@cypress/webpack-preprocessor": "^5.4.8",
+    "@cypress/webpack-preprocessor": "^5.9.1",
     "@size-limit/preset-small-lib": "^4.6.0",
     "@types/node": "^14.11.10",
     "babel-loader": "^8.1.0",
     "cypress": "^7.5.0",
-    "graphql": "^15.3.0",
     "husky": "^4.3.0",
     "size-limit": "^4.6.0",
     "ts-loader": "^8.0.5",
