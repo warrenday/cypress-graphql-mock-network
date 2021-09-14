@@ -51,7 +51,7 @@
     "@size-limit/preset-small-lib": "^4.6.0",
     "@types/node": "^14.11.10",
     "babel-loader": "^8.1.0",
-    "cypress": "^7.5.0",
+    "cypress": "^8.4.0",
     "husky": "^4.3.0",
     "size-limit": "^4.6.0",
     "ts-loader": "^8.0.5",
