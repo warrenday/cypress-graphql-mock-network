@@ -8,7 +8,7 @@ describe('Home Page', () => {
 
   it('displays initial list of todos', () => {
     cy.mockNetworkAdd({
-      Query: () => ({
+      Query: {
         todos: () => ({
           data: [
             {
@@ -23,7 +23,7 @@ describe('Home Page', () => {
             },
           ],
         }),
-      }),
+      },
     });
 
     cy.get('li')

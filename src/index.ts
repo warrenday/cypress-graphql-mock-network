@@ -1,5 +1,5 @@
 import { MockNetwork } from 'graphql-mock-network';
-import { IMocks } from 'graphql-tools';
+import { IMocks } from '@graphql-tools/mock';
 
 const ALIAS = 'graphqlMockNetworkCommands';
 
