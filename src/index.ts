@@ -1,18 +1,18 @@
 import { MockNetwork } from 'graphql-mock-network';
-import { IMocks } from '@graphql-tools/mock';
+import { IGraphqlMocks } from 'graphql-mock-network/dist/types/types';
 
 const ALIAS = 'graphqlMockNetworkCommands';
 
 export type MockNetworkOptions = {
   schema: string;
-  mocks?: IMocks;
+  mocks?: IGraphqlMocks;
 };
 
 declare global {
   namespace Cypress {
     interface Chainable {
       mockNetwork(options?: MockNetworkOptions): void;
-      mockNetworkAdd(mocks?: IMocks): void;
+      mockNetworkAdd(mocks?: IGraphqlMocks): void;
       mockNetworkReset(): void;
       mockNetworkStop(): void;
     }
@@ -28,7 +28,7 @@ Cypress.Commands.add('mockNetwork', (opts: MockNetworkOptions) => {
 
   // Wrap methods to be called by other cypress commands
   cy.wrap({
-    mockNetworkAdd: (mocks: IMocks) => {
+    mockNetworkAdd: (mocks: IGraphqlMocks) => {
       mockNetwork.addMocks(mocks);
     },
     mockNetworkReset: () => {
@@ -45,7 +45,7 @@ Cypress.Commands.add('mockNetwork', (opts: MockNetworkOptions) => {
   });
 });
 
-Cypress.Commands.add('mockNetworkAdd', (mocks: IMocks) => {
+Cypress.Commands.add('mockNetworkAdd', (mocks: IGraphqlMocks) => {
   cy.get(`@${ALIAS}`).invoke('mockNetworkAdd', mocks);
 });
 
