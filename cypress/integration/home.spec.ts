@@ -38,11 +38,11 @@ describe('Home Page', () => {
 
   it('displays no todos message', () => {
     cy.mockNetworkAdd({
-      Query: () => ({
+      Query: {
         todos: () => ({
           data: [],
         }),
-      }),
+      },
     });
 
     cy.get('li').should('have.length', 0);
@@ -53,11 +53,11 @@ describe('Home Page', () => {
 
   it('displays a valid error', () => {
     cy.mockNetworkAdd({
-      Query: () => ({
+      Query: {
         todos: () => {
           throw new Error('Oh dear');
         },
-      }),
+      },
     });
 
     cy.get('div')
